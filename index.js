@@ -1,3 +1,23 @@
+//로그인 버튼 조건부 활성화하기
+const loginBtn = document.querySelector(".submit");
+const form = document.querySelector(".form-container");
+
+//키보드 이벤트에 반응해서 로그인 활성화 상태 변경하기
+form.addEventListener("keydown", e => {
+  if (
+    emailInput.value === "" ||
+    !emailCheck(emailInput.value) ||
+    passwordInput.value === "" ||
+    passwordInput.value.length < 8
+  ) {
+    loginBtn.disabled = true;
+    loginBtn.style.backgroundColor = "#9ca3af";
+  } else {
+    loginBtn.disabled = false;
+    loginBtn.style.backgroundColor = "#3692ff";
+  }
+});
+
 //유효한 이메일 형식 체크
 function emailCheck(email) {
   const atPosition = email.indexOf("@");
@@ -69,16 +89,13 @@ emailInput.addEventListener("focusin", function (e) {
 });
 
 //비밀번호 포커스 아웃 이벤트
-const passwordInput = document.querySelector("#password");
+const passwordInput = document.querySelector(".password");
 passwordInput.addEventListener("focusout", function (e) {
   if (e.target.value === "") {
     passwordErrorMessage(e, "비밀번호를 입력해주세요");
   }
   if (e.target.value !== "" && e.target.value.length < 8) {
     passwordErrorMessage(e, "비밀번호는 8자 이상이어야 합니다");
-  }
-  if (e.target.value !== "" && e.target.value.length > 20) {
-    passwordErrorMessage(e, "비밀번호는 20자 이하여야 합니다");
   }
 });
 

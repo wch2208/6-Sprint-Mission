@@ -789,7 +789,7 @@
 }
 
 .submit {
-  background-color: var(--blue);
+  background-color: var(--gray400);
   height: 56px;
   border-radius: 40px;
   border: 1px solid #9ca4af;

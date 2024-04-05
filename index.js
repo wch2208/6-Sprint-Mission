@@ -107,3 +107,37 @@ passwordInput.addEventListener("focusin", function (e) {
     message.remove();
   }
 });
+
+//에러 메세지 추가 함수
+const nicknameErrorMessage = (e, text) => {
+  //빈 값일 경우 빨간 테두리 추가
+  e.target.style.border = "1.5px solid red";
+  //하단에 메세지 추가
+  const message = document.createElement("span");
+  message.textContent = `${text}`;
+  message.style.color = "#F74747";
+  message.style.fontSize = "15px";
+  message.style.fontFamily = "Pretendard";
+  message.style.fontWeight = "600";
+  message.style.marginTop = "-16px";
+  message.style.marginBottom = "24px";
+  message.style.marginLeft = "16px";
+  message.classList.add("nickname-error-message");
+  e.target.after(message);
+};
+
+//닉네임 포커스 아웃 이벤트
+const nicknameInput = document.querySelector("#nickname");
+nicknameInput.addEventListener("focusout", e => {
+  if (e.target.value === "") {
+    nicknameErrorMessage(e, "닉네임을 입력해주세요.");
+  }
+});
+//닉네임 포커스 인 이벤트
+nicknameInput.addEventListener("focusin", e => {
+  e.target.style.border = "none";
+  const message = document.querySelector(".nickname-error-message");
+  if (message) {
+    message.remove();
+  }
+});

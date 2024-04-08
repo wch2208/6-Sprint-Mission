@@ -1,5 +1,5 @@
 //에러 메세지 추가 함수
-export const emailErrorMessage = (e, text) => {
+export const setEmailErrorMessage = (e, text) => {
   //빈 값일 경우 빨간 테두리 추가
   e.target.style.border = "1.5px solid red";
   //하단에 메세지 추가

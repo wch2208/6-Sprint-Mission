@@ -1,6 +1,6 @@
 import { emailCheck } from "./utils/formValidation.js";
 import {
-  emailErrorMessage,
+  setEmailErrorMessage,
   passwordErrorMessage,
 } from "./components/errorMessage.js";
 
@@ -27,11 +27,11 @@ const emailInput = document.querySelector("#email");
 //이메일 포커스 아웃 이벤트
 emailInput.addEventListener("focusout", function (e) {
   if (e.target.value === "") {
-    emailErrorMessage(e, "이메일을 입력해주세요");
+    setEmailErrorMessage(e, "이메일을 입력해주세요");
   }
   //이메일 형식 체크
   if (e.target.value !== "" && !emailCheck(e.target.value)) {
-    emailErrorMessage(e, "잘못된 이메일 형식입니다");
+    setEmailErrorMessage(e, "잘못된 이메일 형식입니다");
   }
 });
 

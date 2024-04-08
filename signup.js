@@ -1,6 +1,6 @@
 import { emailCheck } from "./utils/formValidation.js";
 import {
-  emailErrorMessage,
+  setEmailErrorMessage,
   passwordErrorMessage,
   nicknameErrorMessage,
 } from "./components/errorMessage.js";
@@ -11,9 +11,9 @@ const form = document.querySelector(".form-container");
 //회원가입 활성화 상태 변경하기
 form.addEventListener("keyup", e => {
   //에러 메세지 존재 유무 확인
-  const errorMesseges = document.querySelectorAll(".error");
+  const errorMessages = document.querySelectorAll(".error");
   if (
-    errorMesseges.length === 0 &&
+    errorMessages.length === 0 &&
     emailCheck(emailInput.value) &&
     nicknameInput.length !== 0 &&
     passwordInput.value.length >= 8 &&
@@ -31,20 +31,11 @@ const emailInput = document.querySelector("#email");
 //이메일 포커스 아웃 이벤트
 emailInput.addEventListener("focusout", function (e) {
   if (e.target.value === "") {
-    emailErrorMessage(e, "이메일을 입력해주세요");
+    setEmailErrorMessage(e, "이메일을 입력해주세요");
   }
   //이메일 형식 체크
   if (e.target.value !== "" && !emailCheck(e.target.value)) {
-    emailErrorMessage(e, "잘못된 이메일 형식입니다");
-  }
-});
-
-//포커스 인 이벤트
-emailInput.addEventListener("focusin", function (e) {
-  e.target.style.border = "none";
-  const message = document.querySelector(".email-error-message");
-  if (message) {
-    message.remove();
+    setEmailErrorMessage(e, "잘못된 이메일 형식입니다");
   }
 });
 
@@ -67,28 +58,11 @@ passwordInput.addEventListener("focusout", function (e) {
   }
 });
 
-//비밀번호 포커스 인 이벤트
-passwordInput.addEventListener("focusin", function (e) {
-  e.target.style.border = "none";
-  const message = document.querySelector(".password-error-message");
-  if (message) {
-    message.remove();
-  }
-});
-
 //닉네임 포커스 아웃 이벤트
 const nicknameInput = document.querySelector("#nickname");
 nicknameInput.addEventListener("focusout", e => {
   if (e.target.value === "") {
     nicknameErrorMessage(e, "닉네임을 입력해주세요.");
-  }
-});
-//닉네임 포커스 인 이벤트
-nicknameInput.addEventListener("focusin", e => {
-  e.target.style.border = "none";
-  const message = document.querySelector(".nickname-error-message");
-  if (message) {
-    message.remove();
   }
 });
 
@@ -128,9 +102,4 @@ passwordCheck.addEventListener("keyup", e => {
     e.target.style.border = "none";
     passwordCheckErrorMessage.remove();
   }
-});
-
-//비밀번호 재확인 포커스 인 이벤트
-passwordCheck.addEventListener("focusin", e => {
-  e.target.style.border = "none";
 });

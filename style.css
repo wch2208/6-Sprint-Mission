@@ -789,7 +789,7 @@
 }
 
 .submit {
-  background-color: var(--gray400);
+  background-color: #3692ff;
   height: 56px;
   border-radius: 40px;
   border: 1px solid #9ca4af;
@@ -800,6 +800,10 @@
   line-height: 24px;
   text-align: center;
   color: #ffffff;
+}
+
+.submit:disabled {
+  background-color: var(--gray400);
 }
 
 /* 소셜 로그인 영역 */
@@ -842,4 +846,14 @@
 .sign-info a {
   text-decoration: underline;
   color: blue;
+}
+
+.error-message {
+  color: #f74747;
+  font-size: 15px;
+  font-family: Pretendard;
+  font-weight: 600;
+  margin-top: -16px;
+  margin-bottom: 24px;
+  margin-left: 16px;
 }

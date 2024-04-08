@@ -1,56 +1,43 @@
-//에러 메세지 추가 함수
-export const setEmailErrorMessage = (e, text) => {
-  //빈 값일 경우 빨간 테두리 추가
-  e.target.style.border = "1.5px solid red";
-  //하단에 메세지 추가
-  const message = document.createElement("span");
-  message.textContent = `${text}`;
-  message.style.color = "#F74747";
-  message.style.fontSize = "15px";
-  message.style.fontFamily = "Pretendard";
-  message.style.fontWeight = "600";
-  message.style.marginTop = "-16px";
-  message.style.marginBottom = "24px";
-  message.style.marginLeft = "16px";
-  message.classList.add("email-error-message");
-  message.classList.add("error");
-  e.target.after(message);
+import {
+  checkEmailValidation,
+  checkPasswordValidation,
+  checkPasswordCheckValidation,
+  checkNicknameValidation,
+} from "../utils/formValidation.js";
+
+//에러 메세지 출력 함수
+const showErrorMessage = (errorDisplayElement, errorMessage) => {
+  errorDisplayElement.textContent = errorMessage;
 };
 
-//패스워드 에러 메세지 추가 함수
-export const passwordErrorMessage = (e, text, classname) => {
-  //빈 값일 경우 빨간 테두리 추가
-  e.target.style.border = "1.5px solid red";
-  //하단에 메세지 추가
-  const message = document.createElement("span");
-  message.textContent = `${text}`;
-  message.style.color = "#F74747";
-  message.style.fontSize = "15px";
-  message.style.fontFamily = "Pretendard";
-  message.style.fontWeight = "600";
-  message.style.marginTop = "-16px";
-  message.style.marginBottom = "24px";
-  message.style.marginLeft = "16px";
-  message.classList.add(classname);
-  message.classList.add("error");
-  e.target.after(message);
-};
+export const setErrorMessage = e => {
+  const password = document.querySelector("#password")?.value;
+  const passwordCheck = document.querySelector("#password-check")?.value;
+  let errorMessage = "";
+  const value = e.target.value;
+  const currentTarget = e.target.id;
+  const errorDisplayElement = e.target.nextElementSibling;
 
-//에러 메세지 추가 함수
-export const nicknameErrorMessage = (e, text) => {
-  //빈 값일 경우 빨간 테두리 추가
-  e.target.style.border = "1.5px solid red";
-  //하단에 메세지 추가
-  const message = document.createElement("span");
-  message.textContent = `${text}`;
-  message.style.color = "#F74747";
-  message.style.fontSize = "15px";
-  message.style.fontFamily = "Pretendard";
-  message.style.fontWeight = "600";
-  message.style.marginTop = "-16px";
-  message.style.marginBottom = "24px";
-  message.style.marginLeft = "16px";
-  message.classList.add("nickname-error-message");
-  message.classList.add("error");
-  e.target.after(message);
+  switch (currentTarget) {
+    case "email":
+      errorMessage = checkEmailValidation(value);
+      break;
+
+    case "password":
+      errorMessage = checkPasswordValidation(value);
+      break;
+
+    case "password-check":
+      errorMessage = checkPasswordCheckValidation(password, passwordCheck);
+      break;
+
+    case "nickname":
+      errorMessage = checkNicknameValidation(value);
+      break;
+
+    default:
+      break;
+  }
+
+  showErrorMessage(errorDisplayElement, errorMessage);
 };

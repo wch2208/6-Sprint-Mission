@@ -34,6 +34,7 @@
             type="email"
             autofocus
           />
+          <p class="error-message"></p>
           <label for="password">비밀번호</label>
           <div class="password-contianer">
             <input
@@ -42,13 +43,16 @@
               placeholder="비밀번호를 입력해주세요"
               type="password"
             />
+            <p class="error-message"></p>
             <img
               class="password-icon"
               src="./assets/password_icon.svg"
               alt="비밀번호 보이기 토글 버튼"
             />
           </div>
-          <button type="submit" class="submit" disabled>로그인</button>
+          <button type="submit" class="submit" id="login-btn" disabled>
+            로그인
+          </button>
         </form>
         <div class="social-login-container">
           <h2>간편 로그인하기</h2>
@@ -71,6 +75,6 @@
         </p>
       </div>
     </div>
-    <script src="./signin.js" type="module"></script>
+    <script src="./index.js" type="module"></script>
   </body>
 </html>

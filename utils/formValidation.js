@@ -45,11 +45,11 @@ export function checkFormValidity() {
   const passwordCheckValue = document.querySelector("#password-check")?.value;
   const nicknameValue = document.querySelector("#nickname")?.value;
 
-  const isEmailValid = emailValidation(email) === undefined;
-  const isPasswordValid = passwordValidation(password) === undefined;
+  const isEmailValid = checkEmailValidation(email) === undefined;
+  const isPasswordValid = checkPasswordValidation(password) === undefined;
   const isPasswordCheckValid =
-    passwordCheckValidation(password, passwordCheckValue) === undefined;
-  const isNicknameValid = nicknameValidation(nicknameValue) === undefined;
+    checkPasswordCheckValidation(password, passwordCheckValue) === undefined;
+  const isNicknameValid = checkNicknameValidation(nicknameValue) === undefined;
 
   if (loginBtn) {
     isEmailValid && isPasswordValid

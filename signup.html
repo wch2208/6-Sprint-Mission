@@ -26,7 +26,7 @@
         </a>
       </div>
       <div class="login-container">
-        <form class="form-container">
+        <form class="form-container" action="login.html">
           <label for="email">이메일</label>
           <input
             id="email"
@@ -34,19 +34,23 @@
             type="email"
             autofocus
           />
+          <p class="error-message"></p>
           <label for="nickname">닉네임</label>
           <input
             id="nickname"
             placeholder="닉네임을 입력해주세요"
             type="text"
           />
+          <p class="error-message"></p>
           <label>비밀번호</label>
           <div class="password-contianer">
             <input
+              id="password"
               class="password"
               placeholder="비밀번호를 입력해주세요"
               type="password"
             />
+            <p class="error-message"></p>
             <img
               class="password-icon"
               src="./assets/password_icon.svg"
@@ -56,18 +60,20 @@
           <label for="password_check">비밀번호 확인</label>
           <div class="password-contianer">
             <input
-              class="password"
-              id="password_check"
+              id="password-check"
               placeholder="비밀번호를 다시 한 번 입력해주세요"
               type="password"
             />
+            <p class="error-message"></p>
             <img
               class="password-icon"
               src="./assets/password_icon.svg"
               alt="비밀번호 보이기 토글 버튼"
             />
           </div>
-          <button type="submit" class="submit">회원가입</button>
+          <button type="submit" class="submit" id="signup-btn" disabled>
+            회원가입
+          </button>
         </form>
         <div class="social-login-container">
           <h2>간편 로그인하기</h2>
@@ -86,9 +92,10 @@
         </div>
         <p class="sign-info">
           판다마켓이 처음이신가요?
-          <a href="signin.html">로그인</a>
+          <a href="login.html">로그인</a>
         </p>
       </div>
     </div>
+    <script src="./index.js" type="module"></script>
   </body>
 </html>

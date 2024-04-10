@@ -2,7 +2,13 @@ import { ERROR_MESSAGES } from "../constants/messages.js";
 
 const isEmpty = value => value === "";
 const passwordLengthTooShort = value => value.length < 8;
-const checkEmailValidity = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+// 패턴 설명:
+// ^[A-Za-z0-9_\.\-]+ : '@' 기호 앞에 하나 이상의 영문자, 숫자, 밑줄(_), 점(.) 또는 대시(-)가 오는 것을 의미합니다.
+// @[A-Za-z0-9\-]+ : '@' 기호 다음에 하나 이상의 영문자, 숫자 또는 대시(-)가 오는 것을 의미합니다.
+// \.[A-Za-z0-9\-]+$ : 마지막 부분은 하나 이상의 영문자, 숫자 또는 대시(-)로 구성된 문자열 다음에 점(.)이 오고, 문자열의 끝나는 것을 의미합니다.
+const checkEmailValidity = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/;
+const loginBtn = document.querySelector("#login-btn");
+const signupBtn = document.querySelector("#signup-btn");
 
 function getElementValue(selector) {
   return document.querySelector(selector).value.trim();
@@ -47,8 +53,6 @@ const isValid = (validationFunction, ...args) => {
 
 //전체 유효성 확인
 export function checkFormValidity() {
-  const loginBtn = document.querySelector("#login-btn");
-  const signupBtn = document.querySelector("#signup-btn");
   const email = getElementValue("#email");
   const password = getElementValue("#password");
   const passwordCheck = getElementValue("#password-check");

@@ -4,6 +4,10 @@ const isEmpty = value => value === "";
 const passwordLengthTooShort = value => value.length < 8;
 const checkEmailValidity = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
 
+function getElementValue(selector) {
+  return document.querySelector(selector).value.trim();
+}
+
 //이메일 유효성 검사
 export const checkEmailValidation = value => {
   if (isEmpty(value)) {
@@ -36,20 +40,28 @@ export const checkNicknameValidation = value => {
   }
 };
 
+//유효성 검사 공통 함수
+const isValid = (validationFunction, ...args) => {
+  return validationFunction(...args) === undefined;
+};
+
 //전체 유효성 확인
 export function checkFormValidity() {
   const loginBtn = document.querySelector("#login-btn");
   const signupBtn = document.querySelector("#signup-btn");
-  const { value: email } = document.querySelector("#email");
-  const { value: password } = document.querySelector("#password");
-  const passwordCheckValue = document.querySelector("#password-check")?.value;
-  const nicknameValue = document.querySelector("#nickname")?.value;
+  const email = getElementValue("#email");
+  const password = getElementValue("#password");
+  const passwordCheck = getElementValue("#password-check");
+  const nickname = getElementValue("#nickname");
 
-  const isEmailValid = checkEmailValidation(email) === undefined;
-  const isPasswordValid = checkPasswordValidation(password) === undefined;
-  const isPasswordCheckValid =
-    checkPasswordCheckValidation(password, passwordCheckValue) === undefined;
-  const isNicknameValid = checkNicknameValidation(nicknameValue) === undefined;
+  const isEmailValid = isValid(checkEmailValidation, email);
+  const isPasswordValid = isValid(checkPasswordValidation, password);
+  const isPasswordCheckValid = isValid(
+    checkPasswordCheckValidation,
+    password,
+    passwordCheck
+  );
+  const isNicknameValid = isValid(checkNicknameValidation, nickname);
 
   if (loginBtn) {
     isEmailValid && isPasswordValid

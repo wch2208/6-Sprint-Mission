@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import Image from "next/image";
 import { format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface Article {
   content: string;
@@ -47,6 +47,7 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
   const [isValidate, setIsValidate] = useState<boolean>(false);
   const [commentsList, setCommentsList] = useState<Commenter[]>(comments.list);
   const router = useRouter();
+  const commentInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleKebabClick = (e: React.MouseEvent) => {
     console.log("kebab click!!");
@@ -67,6 +68,24 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
       setIsValidate(true);
     } else {
       setIsValidate(false);
+    }
+  };
+
+  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const comment = commentInputRef.current?.value;
+    if (!isValidate) return;
+    try {
+      const response = await axiosJsonInstance.post(
+        `/articles/${articleData.id}/comments`,
+        {
+          content: comment,
+        }
+      );
+      setCommentsList([response.data, ...commentsList]);
+      if (commentInputRef.current) commentInputRef.current.value = "";
+    } catch (error) {
+      console.error("댓글 작성 실패", error);
     }
   };
 
@@ -107,7 +126,8 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
       <div className="divider border-cool-gary-200 border-b my-16" />
       <div className="mb-40">{articleData.content}</div>
       {/* 댓글 영역 */}
-      <div className="container">
+
+      <form className="container" onSubmit={handleCommentSubmit}>
         <span className="comment-title font-semibold text-cool-gray-900">
           댓글 달기
         </span>
@@ -115,9 +135,12 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
           className="bg-cool-gary-100 rounded-xl w-[344px] md:w-[100%] placeholder:text-cool-gary-400 text-16 px-24 py-16 h-104 my-16"
           placeholder="댓글을 입력해주세요."
           onChange={handleCommentChange}
+          name="comment"
+          ref={commentInputRef}
         ></textarea>
         <div className="flex justify-end mb-16">
           <button
+            disabled={!isValidate}
             type="submit"
             className={`add-product-submit-button ml-auto w-74 h-btn-height rounded-lg text-white font-semibold ${
               isValidate ? "bg-bland-blue" : "bg-cool-gary-400"
@@ -177,7 +200,7 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
             height={24}
           />
         </button>
-      </div>
+      </form>
     </div>
   );
 };

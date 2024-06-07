@@ -1,11 +1,12 @@
-import axiosInstance from "@/lib/axiosInstance";
+import { axiosJsonInstance, axiosFileInstance } from "@/lib/axiosInstance";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const AddBoard: React.FC = () => {
   interface FormValue {
     title: string;
     content: string;
-    image: string;
+    image: string | Blob;
   }
 
   const FORM_INITIAL_VALUE: FormValue = {
@@ -16,9 +17,9 @@ const AddBoard: React.FC = () => {
 
   const [formValue, setFormValue] = useState<FormValue>(FORM_INITIAL_VALUE);
   const [isValidate, setIsValidate] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
-    // 유효성 검사
     const validate = () => {
       const { title, content } = formValue;
 
@@ -26,7 +27,6 @@ const AddBoard: React.FC = () => {
         setIsValidate(false);
         return;
       }
-      // 유효성 검사 통과 상태 값
       setIsValidate(true);
     };
 
@@ -36,7 +36,6 @@ const AddBoard: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // axios를 사용한 post 요청 보내기
     const fetchArticle = async () => {
       try {
         const data = {
@@ -44,8 +43,9 @@ const AddBoard: React.FC = () => {
           content: formValue.content,
           image: formValue.image,
         };
-        console.log(data);
-        const response = await axiosInstance.post("/articles", data);
+
+        const response = await axiosJsonInstance.post("/articles", data);
+        router.push(`/addboard/${response.data.id}`);
       } catch (error) {
         console.error("폼 제출 에러 발생", error);
       }
@@ -65,8 +65,23 @@ const AddBoard: React.FC = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    console.log("file:", files?.[0]);
-    // setFormValue({ ...formValue, image: files?.[0] ?? null });
+    if (!files) return;
+    const fetchImageUrl = async () => {
+      try {
+        const formData = new FormData();
+        formData.append("image", files[0]);
+        const response = await axiosFileInstance.post(
+          "/images/upload",
+          formData
+        );
+        const imageUrl = response.data.url;
+        setFormValue({ ...formValue, image: imageUrl });
+      } catch (error) {
+        console.error("이미지 업로드 에러 발생", error);
+      }
+    };
+
+    fetchImageUrl();
   };
 
   return (

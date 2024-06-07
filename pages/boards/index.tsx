@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GetStaticProps } from "next";
-import axiosInstance from "@/lib/axiosInstance";
+import { axiosJsonInstance } from "@/lib/axiosInstance";
 import Image from "next/image";
 import { useResponsive } from "../../lib/useMediaQuery";
 import { debounce } from "lodash";
@@ -46,7 +46,7 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
 
   const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
-    const response = await axiosInstance.get(
+    const response = await axiosJsonInstance.get(
       `/articles?page=1&pageSize=10&orderBy=${value}`
     );
     setArticles(response.data.list);
@@ -229,7 +229,7 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await axiosInstance.get(
+  const response = await axiosJsonInstance.get(
     "/articles?page=1&pageSize=10&orderBy=recent"
   );
   const articles: List[] = response.data.list;

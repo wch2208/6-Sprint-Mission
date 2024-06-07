@@ -10,4 +10,7 @@ body {
   textarea {
     @apply outline-bland-blue;
   }
+  textarea {
+    @apply resize-none;
+  }
 }

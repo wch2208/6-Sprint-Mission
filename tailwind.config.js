@@ -21,6 +21,7 @@ module.exports = {
       minHeight: px0_200,
       spacing: px0_200,
       colors: {
+        divider: "#DFDFDF",
         "bland-blue": "#3692ff",
         "cool-gary-50": "#F9FAFB",
         "cool-gary-100": "#F3F4F6",

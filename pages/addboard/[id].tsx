@@ -150,37 +150,49 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
           </button>
         </div>
         <div className="container">
-          {commentsList.map(comment => (
-            <div key={comment.id}>
-              <div className="comment-content flex items-start justify-between">
-                <p className="text-14 text-cool-gary-800 w-[312px]">
-                  {comment.content}
-                </p>
-                <Image
-                  src={"/ic_kebab.svg"}
-                  alt="케밥 아이콘"
-                  width={24}
-                  height={24}
-                  onClick={handleKebabClick}
-                />
-              </div>
-              <div className="author-container flex gap-8 my-16">
-                <Image
-                  src={"/ic_profile.svg"}
-                  alt="프로필 이미지"
-                  width={32}
-                  height={32}
-                />
-                <div className="flex flex-col">
-                  <span className="text-12">{articleData.writer.nickname}</span>
-                  <span className="text-12 text-gray-400">
-                    {formatRelativeTime(comment.updatedAt)}
-                  </span>
+          {commentsList.length === 0 ? (
+            <Image
+              className="m-auto"
+              src={"/bg_no_comments.svg"}
+              alt="댓글이 없습니다"
+              width={151}
+              height={195}
+            />
+          ) : (
+            commentsList.map(comment => (
+              <div key={comment.id}>
+                <div className="comment-content flex items-start justify-between">
+                  <p className="text-14 text-cool-gary-800 w-[312px]">
+                    {comment.content}
+                  </p>
+                  <Image
+                    src={"/ic_kebab.svg"}
+                    alt="케밥 아이콘"
+                    width={24}
+                    height={24}
+                    onClick={handleKebabClick}
+                  />
                 </div>
+                <div className="author-container flex gap-8 my-16">
+                  <Image
+                    src={"/ic_profile.svg"}
+                    alt="프로필 이미지"
+                    width={32}
+                    height={32}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-12">
+                      {articleData.writer.nickname}
+                    </span>
+                    <span className="text-12 text-gray-400">
+                      {formatRelativeTime(comment.updatedAt)}
+                    </span>
+                  </div>
+                </div>
+                <div className="divider border-cool-gary-200 border-b my-16" />
               </div>
-              <div className="divider border-cool-gary-200 border-b my-16" />
-            </div>
-          ))}
+            ))
+          )}
         </div>
         {/* 목록으로 돌아가기 */}
         <button

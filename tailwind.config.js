@@ -27,6 +27,7 @@ module.exports = {
         "cool-gary-100": "#F3F4F6",
         "cool-gary-200": "#E5E7EB",
         "cool-gary-400": "#9CA3AF",
+        "cool-gary-800": "#1F2937",
       },
 
       borderRadius: {

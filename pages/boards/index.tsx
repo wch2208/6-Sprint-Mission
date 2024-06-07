@@ -1,9 +1,10 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import { GetStaticProps } from "next";
 import axiosInstance from "@/lib/axiosInstance";
 import Image from "next/image";
 import { useResponsive } from "../../lib/useMediaQuery";
 import { debounce } from "lodash";
+import { useRouter } from "next/router";
 
 interface List {
   id: number;
@@ -33,6 +34,7 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
     useState<List[]>(initialArticles);
   const [bestArticles, setBestArticles] = useState<bestArticle[]>([]);
   const { isMobile, isTablet, isDesktop } = useResponsive();
+  const router = useRouter();
 
   useEffect(() => {
     if (articles.length === 0) return;
@@ -42,7 +44,7 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
     setBestArticles(sortedArticles.slice(0, 3));
   }, [articles]);
 
-  const handleSortChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     const response = await axiosInstance.get(
       `/articles?page=1&pageSize=10&orderBy=${value}`
@@ -52,20 +54,27 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
 
   const itemsToShow = isMobile ? 1 : isTablet ? 2 : 3;
 
-  const handleInputChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    const isEmptyValue = value === "";
+  const handleInputChange = debounce(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      const isEmptyValue = value === "";
 
-    if (isEmptyValue) {
-      setArticles(originalArticles);
-      return;
-    }
+      if (isEmptyValue) {
+        setArticles(originalArticles);
+        return;
+      }
 
-    const filteredArticles = originalArticles.filter(article =>
-      article.title.toLowerCase().includes(value.toLowerCase())
-    );
-    setArticles(filteredArticles);
-  }, 1000);
+      const filteredArticles = originalArticles.filter(article =>
+        article.title.toLowerCase().includes(value.toLowerCase())
+      );
+      setArticles(filteredArticles);
+    },
+    1000
+  );
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.push("/addboard");
+  };
 
   return (
     <div className="container m-auto w-[343px] md:w-[696px] xl:w-[1200px]">
@@ -128,7 +137,10 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
       {/* 게시글 영역 */}
       <div className="container flex justify-between items-center mt-10 mb-4">
         <h2 className="font-bold text-fs-20">게시글</h2>
-        <button className="w-btn-width h-btn-height bg-bland-blue rounded-lg text-white font-semibold">
+        <button
+          className="w-btn-width h-btn-height bg-bland-blue rounded-lg text-white font-semibold"
+          onClick={handleClick}
+        >
           글쓰기
         </button>
       </div>

@@ -104,6 +104,7 @@ const AddBoard: React.FC = () => {
       className="add-product-container container my-16 mx-auto w-[344px] md:w-[696px] xl:w-[1200px] flex flex-col gap-24"
     >
       {/* 등록버튼 */}
+
       <div className="add-product-header flex justify-between items-center">
         <h1 className="add-product-title text-cool-gary-800 font-bold text-20">
           상품 등록하기

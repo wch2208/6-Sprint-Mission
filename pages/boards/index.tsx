@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useResponsive } from "../../lib/useMediaQuery";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
+import SortDropdown from "./components/SortDropdown";
 
 interface List {
   id: number;
@@ -44,10 +45,9 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
     setBestArticles(sortedArticles.slice(0, 3));
   }, [articles]);
 
-  const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
+  const handleSortChange = async (order: string) => {
     const response = await axiosJsonInstance.get(
-      `/articles?page=1&pageSize=10&orderBy=${value}`
+      `/articles?page=1&pageSize=10&orderBy=${order}`
     );
     setArticles(response.data.list);
   };
@@ -79,6 +79,7 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
   return (
     <div className="container m-auto w-[343px] md:w-[696px] xl:w-[1200px]">
       <h2 className="font-bold text-20 mb-16">베스트 게시글</h2>
+
       {/* 베스트 게시글 영역 */}
       <div className="flex gap-16 xl:gap-24">
         {bestArticles.slice(0, itemsToShow).map(article => {
@@ -157,11 +158,11 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
           onChange={handleInputChange}
         />
         {isMobile ? (
-          <Image src={"/ic_sort.svg"} alt="정렬아이콘" width={42} height={42} />
+          <SortDropdown handleSortChange={handleSortChange} />
         ) : (
           <div>
             <select
-              onChange={handleSortChange}
+              onChange={e => handleSortChange(e.target.value)}
               className="rounded-lg border pl-20 w-[130px] h-[42px] appearance-none relative"
             >
               <option value="recent">최신순</option>

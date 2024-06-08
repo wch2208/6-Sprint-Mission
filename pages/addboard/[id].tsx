@@ -127,12 +127,7 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
       <div className="flex flex-col">
         {articleData.image && (
           <div className="image-container aspect-w-16 aspect-h-9">
-            <Image
-              src={`${articleData.image}`}
-              alt="첨부이미지"
-              layout="fill"
-              objectFit="contain"
-            />
+            <Image src={`${articleData.image}`} alt="첨부이미지" fill />
           </div>
         )}
         <div className="mb-40 flex-auto">{articleData.content}</div>

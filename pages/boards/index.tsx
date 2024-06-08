@@ -101,11 +101,10 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
                   {article.image ? (
                     <div className="rounded-lg bg-white w-[72px] h-[72px] flex items-center justify-center border border-cool-gary-200">
                       <Image
-                        className="object-contain"
                         src={article.image}
                         alt="첨부이미지"
-                        width={48}
-                        height={42}
+                        width={72}
+                        height={72}
                       />
                     </div>
                   ) : null}
@@ -195,8 +194,8 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
                   <Image
                     src={article.image}
                     alt={"첨부이미지"}
-                    width={48}
-                    height={42}
+                    width={72}
+                    height={72}
                   />
                 </div>
               ) : null}

@@ -182,8 +182,9 @@ const Boards: React.FC<BoardsProps> = ({ articles: initialArticles }) => {
       <ul>
         {articles.map(article => (
           <li
-            className="w-[343px] md:w-[696px] xl:w-[1200px] h-[136px] border-b my-24 justify-between flex flex-col pb-24"
+            className="cursor-pointer w-[343px] md:w-[696px] xl:w-[1200px] h-[136px] border-b my-24 justify-between flex flex-col pb-24"
             key={article.id}
+            onClick={() => router.push(`/addboard/${article.id}`)}
           >
             <div className="flex justify-between gap-8">
               <p className="text-clip w-[263px] h-[72px] flex-auto font-semibold text-lg">

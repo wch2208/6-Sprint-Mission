@@ -124,7 +124,17 @@ const AddBoardId: React.FC<AddBoardIdProps> = ({ articleData, comments }) => {
         </div>
       </div>
       <div className="divider border-cool-gary-200 border-b my-16" />
-      <div className="mb-40">{articleData.content}</div>
+      <div className="flex flex-col">
+        <div className="image-container aspect-w-16 aspect-h-9">
+          <Image
+            src={`${articleData.image}`}
+            alt="첨부이미지"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+        <div className="mb-40 flex-auto">{articleData.content}</div>
+      </div>
       {/* 댓글 영역 */}
 
       <form className="container" onSubmit={handleCommentSubmit}>

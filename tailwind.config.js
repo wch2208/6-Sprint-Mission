@@ -42,5 +42,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("./plugins/boardsCustomUtilities")],
+  plugins: [
+    require("./plugins/boardsCustomUtilities"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };

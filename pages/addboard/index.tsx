@@ -1,6 +1,7 @@
 import { axiosJsonInstance, axiosFileInstance } from "@/lib/axiosInstance";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const AddBoard: React.FC = () => {
   interface FormValue {
@@ -18,6 +19,7 @@ const AddBoard: React.FC = () => {
   const [formValue, setFormValue] = useState<FormValue>(FORM_INITIAL_VALUE);
   const [isValidate, setIsValidate] = useState<boolean>(false);
   const router = useRouter();
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const validate = () => {
@@ -84,6 +86,18 @@ const AddBoard: React.FC = () => {
     fetchImageUrl();
   };
 
+  const handleRemoveImage = () => {
+    if (fileRef.current?.value === "") return;
+
+    const isConfirm = window.confirm("정말 삭제하시겠습니까?");
+    if (isConfirm) {
+      if (fileRef.current) {
+        fileRef.current.value = "";
+      }
+      setFormValue({ ...formValue, image: "" });
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -134,9 +148,40 @@ const AddBoard: React.FC = () => {
         <span className="add-product-image-text font-bold text-14 text-cool-gary-800">
           이미지
         </span>
-        <label className="add-product-image-button w-168 h-168 bg-cool-gary-100 flex justify-center items-center rounded-xl relative bg-[url('/ic_upload.svg')] bg-no-repeat bg-center cursor-pointer">
-          <input type="file" className="hidden" onChange={handleImageChange} />
-        </label>
+        <div className="flex gap-8">
+          <label className="add-product-image-button w-168 h-168 bg-cool-gary-100 flex justify-center items-center rounded-xl relative bg-[url('/ic_upload.svg')] bg-no-repeat bg-center cursor-pointer">
+            <input
+              ref={fileRef}
+              type="file"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </label>
+          <div className="add-product-image-button w-168 h-168 flex justify-center items-center rounded-xl relative">
+            {typeof formValue.image === "string" &&
+              formValue.image.includes("sprint") && (
+                <>
+                  <Image
+                    src={formValue.image}
+                    alt="첨부된 이미지 미리보기"
+                    width={200}
+                    height={200}
+                  />
+                  <div
+                    className="absolute w-24 h-24 top-0 right-0 cursor-pointer"
+                    onClick={handleRemoveImage}
+                  >
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-0.5 bg-black transform rotate-45"></div>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-0.5 bg-black transform -rotate-45"></div>
+                    </div>
+                  </div>
+                </>
+              )}
+          </div>
+        </div>
       </div>
     </form>
   );

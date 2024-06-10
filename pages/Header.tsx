@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   const router = useRouter();
 
   return (
-    <header className="flex justify-between items-center p-4">
+    <header className="flex justify-between items-center px-15 py-16 border-b border-divider">
       <div className="flex items-center">
         <Link
           href="/"
@@ -24,13 +24,13 @@ const Header: React.FC = () => {
             width={153}
             height={50}
           />
-          <p className="block md:hidden font-rokaf font-bold text-fs-20 font-bold text-bland-blue">
+          <p className="block md:hidden font-rokaf font-bold text-20 text-bland-blue mr-16">
             판다마켓
           </p>
         </Link>
 
         <nav>
-          <ul className="flex list-none gap-2 font-bold text-base text-gray-600 md:gap-9 md:text-lg">
+          <ul className="flex list-none gap-8 font-bold text-base text-gray-600 md:gap-9 md:text-lg">
             <li>
               <Link
                 href="/boards"

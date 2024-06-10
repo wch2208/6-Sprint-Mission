@@ -6,4 +6,11 @@
 
 body {
   @apply font-pretendard;
+  input,
+  textarea {
+    @apply outline-bland-blue;
+  }
+  textarea {
+    @apply resize-none;
+  }
 }

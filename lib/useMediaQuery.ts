@@ -26,8 +26,8 @@ export const useMediaQuery = (query: string): boolean => {
 };
 
 export const useResponsive = () => {
-  const isMobile = useMediaQuery("(max-width: 744px)");
-  const isTablet = useMediaQuery("(min-width: 744px) and (max-width: 1280px)");
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 1280px)");
   const isDesktop = useMediaQuery("(min-width: 1280px)");
 
   return { isMobile, isTablet, isDesktop };

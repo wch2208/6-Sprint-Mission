@@ -8,6 +8,7 @@ import TogglePasswordView from "../../assets/icon-password-view.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { UserSignUpData } from "../../types";
 import { signUpUser } from "../../api/auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 const SignUpPage: React.FC = () => {
   const {

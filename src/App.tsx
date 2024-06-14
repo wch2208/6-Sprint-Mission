@@ -1,21 +1,26 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import Layout from "./Layout";
-import { useState } from "react";
-import AuthContext from "./contexts/AuthContext";
 import AddItem from "./pages/AddItem/AddItem";
 import FreeBoard from "./pages/FreeBoard/FreeBoard";
 import ItemDetail from "./pages/ItemDetail/ItemDetail";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import Items from "./pages/Items/Items";
+import { AuthProvider } from "./contexts/AuthContext";
+
+interface ProvidersProps {
+  children: ReactNode;
+}
+
+const Providers: React.FC<ProvidersProps> = ({ children }) => {
+  return <AuthProvider>{children}</AuthProvider>;
+};
 
 const App: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
   return (
-    <AuthContext.Provider value={isLogin}>
+    <Providers>
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -29,7 +34,7 @@ const App: React.FC = () => {
           </Route>
         </Routes>
       </Router>
-    </AuthContext.Provider>
+    </Providers>
   );
 };
 

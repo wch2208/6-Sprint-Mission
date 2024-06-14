@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Nav.css";
 import logo from "../../assets/logo-panda.svg";
-import AuthContext from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import LoginIcon from "../../assets/icon-login.svg";
 
 // 현재 경로를 불리언으로 반환하는 커스텀훅
@@ -21,10 +21,10 @@ const usePagePaths = () => {
 };
 
 const Nav: React.FC = () => {
-  const isLogin: Boolean = useContext(AuthContext);
   const { pathname } = useLocation();
   const { isOnProductPage, isOnLoginPage, isOnSignUpPage } = usePagePaths();
-
+  const { user } = useAuth();
+  console.log("로그인: ", user);
   if (isOnLoginPage || isOnSignUpPage) {
     return null;
   }
@@ -57,8 +57,13 @@ const Nav: React.FC = () => {
             중고마켓
           </Link>
         </div>
-        {isLogin ? (
-          <img className="icon-login" src={LoginIcon} alt="로그인 아이콘" />
+        {user ? (
+          <img
+            className="icon-login"
+            src={LoginIcon}
+            alt="로그인 아이콘"
+            onClick={handleLogouClick}
+          />
         ) : (
           <Link to="/login" className="btn login-btn">
             로그인

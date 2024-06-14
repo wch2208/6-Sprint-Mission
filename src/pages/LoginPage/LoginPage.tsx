@@ -7,7 +7,7 @@ import KakaoIcon from "../../assets/icon-kakao.svg";
 import TogglePasswordView from "../../assets/icon-password-view.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { UserLoginData } from "../../types";
-import { loginUser } from "../../api/auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LoginPage: React.FC = () => {
   const {
@@ -17,11 +17,12 @@ const LoginPage: React.FC = () => {
   } = useForm<UserLoginData>({ mode: "onChange" });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const onSubmit: SubmitHandler<UserLoginData> = async data => {
     try {
       console.log(data);
-      const res = await loginUser(data);
+      const res = await login(data);
       console.log(res);
       navigate("/");
     } catch (error) {
@@ -46,7 +47,7 @@ const LoginPage: React.FC = () => {
           type="text"
           id="email"
           placeholder="이메일을 입력해주세요"
-          autoComplete="off"
+          // autoComplete="off"
           autoFocus
           {...register("email", {
             required: "이메일을 입력해주세요",

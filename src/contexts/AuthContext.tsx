@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { loginUser } from "../api/auth";
 import { AuthResponse, User, UserLoginData } from "../types";
 
@@ -15,13 +21,17 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function login(data: UserLoginData) {
+    setIsLoading(true);
     try {
       const res: AuthResponse = await loginUser(data);
       setUser(res.user);
     } catch (error) {
       console.error("Failed to login", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -29,7 +39,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    setIsLoading(true);
   }
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setIsLoading(false);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

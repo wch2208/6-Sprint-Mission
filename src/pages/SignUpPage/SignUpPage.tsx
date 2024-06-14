@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./SignUpPage.module.css";
 import Logo from "../../assets/logo-panda.svg";
@@ -8,7 +8,6 @@ import TogglePasswordView from "../../assets/icon-password-view.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { UserSignUpData } from "../../types";
 import { signUpUser } from "../../api/auth";
-import { useAuth } from "../../contexts/AuthContext";
 
 const SignUpPage: React.FC = () => {
   const {
@@ -23,19 +22,23 @@ const SignUpPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<UserSignUpData> = async data => {
     try {
-      console.log(data);
-      const res = await signUpUser(data);
-      console.log(res);
+      await signUpUser(data);
       navigate("/");
     } catch (error) {
-      console.error("Failed sign up", error);
+      console.error(error);
     }
   };
 
   const handleSocialClick = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.target as HTMLElement;
-    console.log(id);
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -128,7 +131,7 @@ const SignUpPage: React.FC = () => {
           type="submit"
           disabled={!isValid}
         >
-          로그인
+          회원가입
         </button>
       </form>
       <div className={styles.socialLoginContainer}>

@@ -5,7 +5,6 @@ import logo from "../../assets/logo-panda.svg";
 import { useAuth } from "../../contexts/AuthContext";
 import LoginIcon from "../../assets/icon-login.svg";
 
-// 현재 경로를 불리언으로 반환하는 커스텀훅
 const usePagePaths = () => {
   const { pathname } = useLocation();
 
@@ -24,13 +23,11 @@ const Nav: React.FC = () => {
   const { pathname } = useLocation();
   const { isOnProductPage, isOnLoginPage, isOnSignUpPage } = usePagePaths();
   const { user, logout } = useAuth();
-  console.log("로그인: ", user);
   if (isOnLoginPage || isOnSignUpPage) {
     return null;
   }
 
-  const handleLogouClick = () => {
-    //로그아웃
+  const handleLogoutClick = () => {
     const confirm = window.confirm("정말 로그아웃 하시겠습니까?");
     if (!confirm) return;
     logout();
@@ -69,7 +66,7 @@ const Nav: React.FC = () => {
             className="icon-login"
             src={LoginIcon}
             alt="로그인 아이콘"
-            onClick={handleLogouClick}
+            onClick={handleLogoutClick}
           />
         ) : (
           <Link to="/login" className="btn login-btn">

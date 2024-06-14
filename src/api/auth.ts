@@ -27,9 +27,26 @@ export const loginUser = async (data: UserLoginData): Promise<AuthResponse> => {
     );
     localStorage.setItem("accessToken", response.data.accessToken);
     localStorage.setItem("refreshToken", response.data.refreshToken);
+    localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
   } catch (error) {
     console.error("Failed sign in", error);
     throw error;
   }
 };
+
+// export const refreshUser = async (
+//   data: UserRefreshData
+// ): Promise<AuthResponse> => {
+//   try {
+//     const response = await axios.post<AuthResponse>(
+//       `${BASE_URL}/auth/refresh-token`,
+//       data
+//     );
+//     localStorage.setItem("accessToken", response.data.accessToken);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./LoginPage.module.css";
 import Logo from "../../assets/logo-panda.svg";
@@ -21,9 +21,7 @@ const LoginPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<UserLoginData> = async data => {
     try {
-      console.log(data);
-      const res = await login(data);
-      console.log(res);
+      await login(data);
       navigate("/");
     } catch (error) {
       console.error("Failed to login", error);
@@ -32,12 +30,18 @@ const LoginPage: React.FC = () => {
 
   const handleSocialClick = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.target as HTMLElement;
-    console.log(id);
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
-      <div className={styles.logoContainer}>
+      <div className={styles.logoContainer} onClick={() => navigate("/")}>
         <img className={styles.logoIcon} src={Logo} alt="로고" />
         <span>판다마켓</span>
       </div>
@@ -72,7 +76,6 @@ const LoginPage: React.FC = () => {
           type={showPassword ? "text" : "password"}
           id="password"
           placeholder="비밀번호를 입력해주세요"
-          autoComplete="off"
           {...register("password", {
             required: "비밀번호를 입력해주세요",
             minLength: {

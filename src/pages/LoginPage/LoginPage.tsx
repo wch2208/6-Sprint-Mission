@@ -5,23 +5,28 @@ import Logo from "../../assets/logo-panda.svg";
 import GoogleIcon from "../../assets/icon-google.svg";
 import KakaoIcon from "../../assets/icon-kakao.svg";
 import TogglePasswordView from "../../assets/icon-password-view.svg";
-import { Link } from "react-router-dom";
-
-type FormValues = {
-  email: string;
-  password: string;
-};
+import { Link, useNavigate } from "react-router-dom";
+import { UserLoginData } from "../../types";
+import { loginUser } from "../../api/auth";
 
 const LoginPage: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormValues>({ mode: "onChange" });
+  } = useForm<UserLoginData>({ mode: "onChange" });
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<UserLoginData> = async data => {
+    try {
+      console.log(data);
+      const res = await loginUser(data);
+      console.log(res);
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to login", error);
+    }
   };
 
   const handleSocialClick = (e: React.MouseEvent<HTMLElement>) => {

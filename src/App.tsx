@@ -8,6 +8,7 @@ import AddItem from "./pages/AddItem/AddItem";
 import FreeBoard from "./pages/FreeBoard/FreeBoard";
 import ItemDetail from "./pages/ItemDetail/ItemDetail";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import Items from "./pages/Items/Items";
 
 const App: React.FC = () => {
@@ -24,7 +25,7 @@ const App: React.FC = () => {
             <Route path="/freeboard" element={<FreeBoard />} />
             <Route path="/additem" element={<AddItem />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
           </Route>
         </Routes>
       </Router>

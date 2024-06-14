@@ -1,4 +1,4 @@
-export interface Product {
+export interface ProductItem {
   id: number;
   name: string;
   price: number;
@@ -7,6 +7,10 @@ export interface Product {
   favoriteCount: number;
   category: string;
   tags: string[];
+}
+
+export interface Product {
+  list: ProductItem[];
 }
 
 export interface GetProductsParams {

@@ -23,11 +23,18 @@ const usePagePaths = () => {
 const Nav: React.FC = () => {
   const { pathname } = useLocation();
   const { isOnProductPage, isOnLoginPage, isOnSignUpPage } = usePagePaths();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   console.log("로그인: ", user);
   if (isOnLoginPage || isOnSignUpPage) {
     return null;
   }
+
+  const handleLogouClick = () => {
+    //로그아웃
+    const confirm = window.confirm("정말 로그아웃 하시겠습니까?");
+    if (!confirm) return;
+    logout();
+  };
 
   return (
     <header>

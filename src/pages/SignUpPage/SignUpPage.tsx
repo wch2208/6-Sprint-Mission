@@ -8,6 +8,7 @@ import TogglePasswordView from "../../assets/icon-password-view.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { UserSignUpData } from "../../types";
 import { signUpUser } from "../../api/auth";
+import { getAccessToken } from "../../utils/tokenStorageHelper";
 
 const SignUpPage: React.FC = () => {
   const {
@@ -34,7 +35,7 @@ const SignUpPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = getAccessToken();
     if (accessToken) {
       navigate("/");
     }

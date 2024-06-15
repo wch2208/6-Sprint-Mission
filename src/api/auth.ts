@@ -1,6 +1,17 @@
 import axios from "axios";
 import { BASE_URL } from "../constants/apiConfig";
 import { UserSignUpData, AuthResponse, UserLoginData } from "../types";
+import {
+  setAccessToken,
+  setRefreshToken,
+  setUser,
+} from "../utils/tokenStorageHelper";
+
+const setTokens = (data: AuthResponse) => {
+  setAccessToken(data.accessToken);
+  setRefreshToken(data.refreshToken);
+  setUser(data.user);
+};
 
 export const signUpUser = async (
   data: UserSignUpData
@@ -10,8 +21,7 @@ export const signUpUser = async (
       `${BASE_URL}/auth/signUp`,
       data
     );
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+    setTokens(response.data);
     return response.data;
   } catch (error) {
     console.error("Failed sign up", error);
@@ -25,9 +35,7 @@ export const loginUser = async (data: UserLoginData): Promise<AuthResponse> => {
       `${BASE_URL}/auth/signIn`,
       data
     );
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
+    setTokens(response.data);
     return response.data;
   } catch (error) {
     console.error("Failed sign in", error);

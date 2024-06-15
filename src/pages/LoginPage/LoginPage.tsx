@@ -8,6 +8,7 @@ import TogglePasswordView from "../../assets/icon-password-view.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { UserLoginData } from "../../types";
 import { useAuth } from "../../contexts/AuthContext";
+import { getAccessToken } from "../../utils/tokenStorageHelper";
 
 const LoginPage: React.FC = () => {
   const {
@@ -33,7 +34,7 @@ const LoginPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = getAccessToken();
     if (accessToken) {
       navigate("/");
     }

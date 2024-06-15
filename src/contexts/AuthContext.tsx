@@ -7,6 +7,7 @@ import {
 } from "react";
 import { loginUser } from "../api/auth";
 import { AuthResponse, User, UserLoginData } from "../types";
+import { clearStorage, getUser } from "../utils/tokenStorageHelper";
 
 interface AuthContextType {
   user: User | null;
@@ -37,16 +38,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function logout() {
     setUser(null);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    clearStorage();
     setIsLoading(true);
   }
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = getUser();
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(storedUser);
     }
     setIsLoading(false);
   }, []);
